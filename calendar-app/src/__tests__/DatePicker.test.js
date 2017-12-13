@@ -163,16 +163,50 @@ describe('From the grid, it can select a date from', () => {
   })
 })
 
-describe.skip(`On changing month`, () => {
-  describe(`can navigate to`, () => {
-    it(`previous month`, fail)
-    it(`next month`, fail)
+describe(`On changing month`, () => {
+  let wrapper
+  let todayDate
+  beforeEach(() => { 
+    wrapper = mount(<DatePicker />)
+    todayDate = new Date()
   })
-
-  it(`the new dates are rendered on the grid`, fail)
-  it(`the month name should change`, fail)
-  it(`the year number should change`, fail)
-
+  describe(`can navigate to`, () => {
+    it(`previous month`, () => {
+      wrapper.find('#prevbtn').simulate('click')
+      const prevMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, 1)
+      expect(wrapper.state().viewMonth).toEqual(prevMonthStartDate.getMonth())
+      expect(wrapper.state().viewYear).toEqual(prevMonthStartDate.getFullYear())
+    })
+    it(`next month`, () => {
+      wrapper.find('#nextbtn').simulate('click')
+      const nextMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()+1, 1)
+      expect(wrapper.state().viewMonth).toEqual(nextMonthStartDate.getMonth())
+      expect(wrapper.state().viewYear).toEqual(nextMonthStartDate.getFullYear())
+    })
+  })
+  it(`the new dates are rendered on the grid`, () => {
+    wrapper.find('#prevbtn').simulate('click')
+    const prevMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, 1)
+    let firstDayIndex = prevMonthStartDate.getDay()
+    let firstCell = wrapper.find('tbody').find('tr').at(0).find('td').at(firstDayIndex)
+    expect(firstCell.text()).toEqual("1")
+    wrapper.find('#nextbtn').simulate('click')
+    wrapper.find('#nextbtn').simulate('click')
+    const nextMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()+1, 1)
+    firstDayIndex = nextMonthStartDate.getDay()
+    firstCell = wrapper.find('tbody').find('tr').at(0).find('td').at(firstDayIndex)
+    expect(firstCell.text()).toEqual("1")
+  })
+  it(`the month name should change`, () => {
+    const prevMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, 1)
+    wrapper.find('#prevbtn').simulate('click')
+    expect(wrapper.find('#selected_month').text()).toEqual(MONTHS_NAME[prevMonthStartDate.getMonth()])
+  })
+  it(`the year number should change`, () => {
+    const prevMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, 1)
+    wrapper.find('#prevbtn').simulate('click')
+    expect(wrapper.find('#selected_month').text()).toEqual(prevMonthStartDate.getFullYear())
+  })
   describe(`the year should change once we move to a month`, () => {
     it(`before Jan`, fail)
     it(`after Dec`, fail)

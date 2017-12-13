@@ -80,9 +80,9 @@ export default class DatePicker extends React.Component<Props, State> {
             <Table>
                 <thead>
                 <tr>
-                    <th><button onClick={this.goPrev}>&lt;</button></th>
+                    <th><button id="prevbtn" onClick={this.goPrev}>&lt;</button></th>
                     <th colSpan="5"><span id="selected_month">{MONTHS_NAME[viewMonth]}</span> <span id="selected_year">{viewYear}</span></th>
-                    <th><button onClick={this.goNext}>&gt;</button></th>
+                    <th><button id="nextbtn" onClick={this.goNext}>&gt;</button></th>
                 </tr>
                 <tr>
                 {DAYS_NAME.map(day => {
