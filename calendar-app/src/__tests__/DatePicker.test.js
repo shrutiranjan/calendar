@@ -92,10 +92,14 @@ describe(`By default, when no props are passed`, () => {
       allTd.find('td').find({isActive: true}).at(0).text()
     ).toEqual(todayDate.getDate().toString())
   })
-  // describe(`doesn't throw an error when`, () => {
-  //   it(`saved is clicked`, fail)
-  //   it(`cancel is clicked`, fail)
-  // })
+  describe(`doesn't throw an error when`, () => {
+    it(`saved is clicked`, () => {
+      wrapper.find('#savebtn').simulate('click')
+    })
+    it(`cancel is clicked`, () => {
+      wrapper.find('#cancelbtn').simulate('click')
+    })
+  })
 
 })
 
@@ -205,12 +209,30 @@ describe(`On changing month`, () => {
   it(`the year number should change`, () => {
     const prevMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, 1)
     wrapper.find('#prevbtn').simulate('click')
-    expect(wrapper.find('#selected_month').text()).toEqual(prevMonthStartDate.getFullYear())
+    expect(wrapper.find('#selected_year').text()).toEqual(prevMonthStartDate.getFullYear().toString())
   })
   describe(`the year should change once we move to a month`, () => {
-    it(`before Jan`, fail)
-    it(`after Dec`, fail)
+    it(`before Jan`, () => {
+      const defaultDate = new Date(2018, 0, 15)
+      wrapper = mount(<DatePicker defaultDate={defaultDate} />)
+      wrapper.find('#prevbtn').simulate('click')
+      expect(wrapper.find('#selected_month').text()).toEqual('December')
+      expect(wrapper.find('#selected_year').text()).toEqual('2017')
+    })
+    it(`after Dec`, () => {
+      const defaultDate = new Date(2017, 11, 15)
+      wrapper = mount(<DatePicker defaultDate={defaultDate} />)
+      wrapper.find('#nextbtn').simulate('click')
+      expect(wrapper.find('#selected_month').text()).toEqual('January')
+      expect(wrapper.find('#selected_year').text()).toEqual('2018')
+    })
   })
-
-  it(`should remember the date(s) that was selected & is active previously`, fail)
+  it(`should remember the date(s) that was selected & is active previously`, () => {
+    wrapper.find('#prevbtn').simulate('click')
+    wrapper.find('#nextbtn').simulate('click')
+    expect(wrapper.find(DateDiv).find({selected: true}).children().at(0).text()).toEqual(todayDate.getDate().toString())
+    wrapper.find('#nextbtn').simulate('click')
+    wrapper.find('#prevbtn').simulate('click')
+    expect(wrapper.find(DateDiv).find({selected: true}).children().at(0).text()).toEqual(todayDate.getDate().toString())
+  })
 })
