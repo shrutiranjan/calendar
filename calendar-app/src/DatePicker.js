@@ -3,10 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const DAYS_NAME = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-export const MONTHS_NAME = ["January", "February", "March", "April", "May", "June",
-"July", "August", "September", "October", "November", "December"]
+export const MONTHS_NAME = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
-const DateCell = (props) => {
+const DateCell = props => {
     const {cellDate, selected, greyedOut, isActive, onSelect} = props
     const setDate = () => {
         onSelect(cellDate)
@@ -17,6 +16,7 @@ const DateCell = (props) => {
         </DateDiv>
     )
 }
+
 export default class DatePicker extends React.Component<Props, State> {
     constructor(props) {
         super(props)
@@ -46,7 +46,7 @@ export default class DatePicker extends React.Component<Props, State> {
         }
     }
 
-    selectDate = (dt) => {
+    selectDate = dt => {
         this.setState({selectedDate: dt})
     }
 
@@ -94,7 +94,6 @@ export default class DatePicker extends React.Component<Props, State> {
                                     cellDate.setDate(firstDate.getDate() + dayOfFirstIndex)
                                     cellDate.setHours(0,0,0,0)
                                     dayOfFirstIndex+=1
-                                    //console.log(selectedDate.valueOf(),  cellDate.valueOf(), "======"+cellDate.getDate())
                                     return (<td key={colIndex}><DateCell onSelect={this.selectDate} cellDate={cellDate} isActive={activeDate.getTime() === cellDate.getTime()} selected={selectedDate.getTime() === cellDate.getTime()} greyedOut={firstDate.getTime() > cellDate.getTime() || lastDate.getTime() < cellDate.getTime()} /></td>)
                                     
                                 })
@@ -105,7 +104,7 @@ export default class DatePicker extends React.Component<Props, State> {
                 </tbody>
                 <tfoot>
                     <tr>
-                    <th colSpan="5"></th>
+                    <th colSpan="5" />
                     <td><button id="cancelbtn" onClick={this.onCancelClick}>Cancel</button></td>
                     <td><button id="savebtn" onClick={this.onSaveClick}>Save</button></td>
                     </tr>

@@ -5,7 +5,7 @@ import DatePicker from './DatePicker'
 
 class App extends Component {
 
-  saveDate = (dt) =>{
+  saveDate = dt =>{
     console.log('in Parent', dt)
   }
   cancelDate = () =>{
