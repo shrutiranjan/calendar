@@ -8,7 +8,6 @@ export const MONTHS_NAME = ["January", "February", "March", "April", "May", "Jun
 
 const DateCell = (props) => {
     const {cellDate, selected, greyedOut, isActive, onSelect} = props
-    //console.log(cellDate)
     const setDate = () => {
         onSelect(cellDate)
     }
@@ -52,14 +51,12 @@ export default class DatePicker extends React.Component<Props, State> {
     }
 
     onCancelClick = () => {
-        //console.log('cancel clicked')
         if(this.props.onCancel) {
             this.props.onCancel()
         }
     }
     
     onSaveClick = () => {
-        //console.log('save clicked on date', this.state.selectedDate)
         if(this.props.onSave) {
             this.props.onSave(this.state.selectedDate)
         }
@@ -70,8 +67,6 @@ export default class DatePicker extends React.Component<Props, State> {
         selectedDate.setHours(0,0,0,0)
         activeDate.setHours(0,0,0,0)       
         let firstDate = new Date(viewYear, viewMonth, 1)        
-        //firstDate.setHours(0,0,0,0)
-        //console.log(viewYear, viewMonth)
         let lastDate = new Date(viewYear, viewMonth+1, 0)
         firstDate.setHours(0,0,0,0)
         let dayOfFirstIndex = -firstDate.getDay()

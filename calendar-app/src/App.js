@@ -4,6 +4,13 @@ import './App.css';
 import DatePicker from './DatePicker'
 
 class App extends Component {
+
+  saveDate = (dt) =>{
+    console.log('in Parent', dt)
+  }
+  cancelDate = () =>{
+    console.log('cancel called in Parent')
+  }
   render() {
     return (
       <div className="App">
@@ -12,7 +19,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React1</h1>
         </header>
         
-        <DatePicker defaultDate={new Date(2017, 10, 8)} />
+        <DatePicker defaultDate={new Date(2017, 10, 8)} onSave={this.saveDate} onCancel={this.cancelDate} />
       </div>
     );
   }
