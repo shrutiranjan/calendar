@@ -12,7 +12,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React1</h1>
         </header>
         
-        <DatePicker />
+        <DatePicker defaultDate={new Date(2017, 10, 8)} />
       </div>
     );
   }

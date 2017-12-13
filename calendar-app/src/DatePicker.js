@@ -22,8 +22,8 @@ export default class DatePicker extends React.Component<Props, State> {
     constructor(props) {
         super(props)
         this.state = {
-            activeDate: new Date(),
-            selectedDate: new Date(),
+            activeDate: this.props.defaultDate || new Date(),
+            selectedDate: this.props.defaultDate || new Date(),
             viewMonth: null,
             viewYear: null
         }
@@ -52,14 +52,14 @@ export default class DatePicker extends React.Component<Props, State> {
     }
 
     onCancelClick = () => {
-        console.log('cancel clicked')
+        //console.log('cancel clicked')
         if(this.props.onCancel) {
             this.props.onCancel()
         }
     }
     
     onSaveClick = () => {
-        console.log('save clicked on date', this.state.selectedDate)
+        //console.log('save clicked on date', this.state.selectedDate)
         if(this.props.onSave) {
             this.props.onSave(this.state.selectedDate)
         }
@@ -111,8 +111,8 @@ export default class DatePicker extends React.Component<Props, State> {
                 <tfoot>
                     <tr>
                     <th colSpan="5"></th>
-                    <td><button onClick={this.onCancelClick}>Cancel</button></td>
-                    <td><button onClick={this.onSaveClick}>Save</button></td>
+                    <td><button id="cancelbtn" onClick={this.onCancelClick}>Cancel</button></td>
+                    <td><button id="savebtn" onClick={this.onSaveClick}>Save</button></td>
                     </tr>
                 </tfoot>
             </Table>

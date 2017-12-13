@@ -19,7 +19,6 @@ describe(`By default, when no props are passed`, () => {
   beforeEach(() => { 
     wrapper = mount(<DatePicker />)
     todayDate = new Date()
-    todayDate.setHours(0,0,0,0)
   })
 
   it('should map the date to the correct day of the week', () => {
@@ -93,7 +92,6 @@ describe(`By default, when no props are passed`, () => {
       allTd.find('td').find({isActive: true}).at(0).text()
     ).toEqual(todayDate.getDate().toString())
   })
-
   // describe(`doesn't throw an error when`, () => {
   //   it(`saved is clicked`, fail)
   //   it(`cancel is clicked`, fail)
@@ -101,20 +99,68 @@ describe(`By default, when no props are passed`, () => {
 
 })
 
-describe.skip(`When some props are passed`, () => {
-  it(`shows the passed date as the selected & active date`, fail)
-
-  describe(`calls 'onSave' prop when save is clicked with`, () => {
-    it(`the default date when there was no interaction(by default)`, fail)
-    it(`selected date when a different date is selected`, fail)
+describe(`When some props are passed`, () => {
+  let wrapper
+  let defaultDate
+  let saveMockFn
+  let cancelMockFn
+  beforeEach(() => { 
+    defaultDate = new Date(2017, 10, 15)
+    saveMockFn = jest.fn()
+    cancelMockFn = jest.fn()
+    wrapper = mount(<DatePicker defaultDate={defaultDate} onSave={saveMockFn} onCancel={cancelMockFn} />)
   })
-
-  it(`calls 'onCancel' prop when cancel is clicked `, fail)
+  it(`shows the passed date as the selected & active date`, () => {
+    const DateDivs = wrapper.find(DateDiv)
+    expect(
+      DateDivs.find({selected: true}).at(0).text()
+    ).toEqual(defaultDate.getDate().toString())
+    expect(
+      DateDivs.find({isActive: true}).at(0).text()
+    ).toEqual(defaultDate.getDate().toString())
+  })
+  describe(`calls 'onSave' prop when save is clicked with`, () => {
+    it(`the default date when there was no interaction(by default)`, () => {
+      wrapper.find('#savebtn').simulate('click')
+      expect(saveMockFn).toHaveBeenCalledWith(defaultDate)
+    })
+    it(`selected date when a different date is selected`, () => {
+      let elementToClick = wrapper.find(DateDiv).find({selected: false}).children().at(8)
+      elementToClick.simulate('click')
+      const clickedDate = new Date(defaultDate.getFullYear(), defaultDate.getMonth(), parseInt(elementToClick.text()))
+      wrapper.find('#savebtn').simulate('click')
+      expect(saveMockFn).toHaveBeenCalledWith(clickedDate)
+    })
+  })
+  it(`calls 'onCancel' prop when cancel is clicked`, () => {
+    wrapper.find('#cancelbtn').simulate('click')
+    expect(cancelMockFn).toHaveBeenCalled()
+  })
 })
 
 describe('From the grid, it can select a date from', () => {
-  it('the previous month', fail)
-  it('the next month', fail)
+  let wrapper
+  let todayDate
+  beforeEach(() => { 
+    wrapper = mount(<DatePicker />)
+    todayDate = new Date()
+  })
+  it('the previous month', () => {
+    const firstDate = new Date(todayDate.getFullYear(), todayDate.getMonth(), 1)
+    const firstDayIndex = firstDate.getDay()
+    if(firstDayIndex > 0) {
+      const firstCell = wrapper.find('tbody').find('tr').at(0).find(DateDiv).at(0)
+      firstCell.simulate('click')
+      const selectedDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, parseInt(firstCell.text()))
+      expect(wrapper.state().selectedDate.getTime()).toEqual(selectedDate.getTime())
+    }
+  })
+  it('the next month', () => {
+    const lastCell = wrapper.find('tbody').find('tr').at(5).find(DateDiv).at(6)
+    lastCell.simulate('click')
+    const selectedDate = new Date(todayDate.getFullYear(), todayDate.getMonth()+1, parseInt(lastCell.text()))
+    expect(wrapper.state().selectedDate.getTime()).toEqual(selectedDate.getTime())
+  })
 })
 
 describe.skip(`On changing month`, () => {
