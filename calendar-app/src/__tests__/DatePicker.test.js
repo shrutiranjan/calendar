@@ -204,15 +204,13 @@ describe('On changing month', () => {
     wrapper.find('#prevbtn').simulate('click')
     const prevMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()-1, 1)
     let firstDayIndex = prevMonthStartDate.getDay()
-    let firstCell = wrapper.find('tbody').find('tr').at(0).find('td').at(firstDayIndex)
-    expect(firstCell.text()).toEqual('1')
+    expect(wrapper.find('tbody').find('tr').at(0).find('td').at(firstDayIndex).text()).toEqual('1')
     
     wrapper.find('#nextbtn').simulate('click')
     wrapper.find('#nextbtn').simulate('click')
     const nextMonthStartDate = new Date(todayDate.getFullYear(), todayDate.getMonth()+1, 1)
     firstDayIndex = nextMonthStartDate.getDay()
-    firstCell = wrapper.find('tbody').find('tr').at(0).find('td').at(firstDayIndex)
-    expect(firstCell.text()).toEqual('1')
+    expect(wrapper.find('tbody').find('tr').at(0).find('td').at(firstDayIndex).text()).toEqual('1')
   })
   
   it('the month name should change', () => {

@@ -6,10 +6,10 @@ import DatePicker from './DatePicker'
 class App extends Component {
 
   saveDate = dt =>{
-    console.log('in Parent', dt)
+    
   }
   cancelDate = () =>{
-    console.log('cancel called in Parent')
+    
   }
   render() {
     return (
