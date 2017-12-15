@@ -5,11 +5,11 @@ import DatePicker from './DatePicker'
 
 class App extends Component {
 
-  saveDate = dt =>{
-    
+  saveDate = (dt) =>{
+    console.log('Date saved in parent', dt)
   }
   cancelDate = () =>{
-    
+    console.log('cancel called in parent')
   }
   render() {
     return (

@@ -3,9 +3,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 const DAYS_NAME = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
-export const MONTHS_NAME = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+export const MONTHS_NAME = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-const DateCell = props => {
+const DateCell = (props) => {
     const {cellDate, selected, greyedOut, isActive, onSelect} = props
     const setDate = () => {
         onSelect(cellDate)
@@ -20,16 +20,14 @@ const DateCell = props => {
 export default class DatePicker extends React.Component<Props, State> {
     constructor(props) {
         super(props)
+        const defaultDate = this.props.defaultDate || new Date()
         this.state = {
-            activeDate: this.props.defaultDate || new Date(),
-            selectedDate: this.props.defaultDate || new Date(),
-            viewMonth: null,
-            viewYear: null
-        }
+            selectedDate: defaultDate,
+            viewMonth: defaultDate.getMonth(),
+            viewYear: defaultDate.getFullYear()
+        }        
     }
-    componentWillMount() {
-        this.setState({viewMonth: this.state.selectedDate.getMonth(), viewYear: this.state.selectedDate.getFullYear()})
-    }        
+       
     goPrev = () => {
         if(this.state.viewMonth === 0) {
             this.setState({viewMonth: 11, viewYear: this.state.viewYear - 1})
@@ -46,8 +44,8 @@ export default class DatePicker extends React.Component<Props, State> {
         }
     }
 
-    selectDate = dt => {
-        this.setState({selectedDate: dt})
+    selectDate = (newSelectDate) => {
+        this.setState({selectedDate: newSelectDate})
     }
 
     onCancelClick = () => {
@@ -63,7 +61,8 @@ export default class DatePicker extends React.Component<Props, State> {
     }
 
     render = () => {
-        const {selectedDate, activeDate, viewMonth, viewYear} = this.state
+        const {selectedDate, viewMonth, viewYear} = this.state
+        const activeDate = this.props.defaultDate || new Date()
         selectedDate.setHours(0,0,0,0)
         activeDate.setHours(0,0,0,0)       
         let firstDate = new Date(viewYear, viewMonth, 1)        
@@ -104,7 +103,7 @@ export default class DatePicker extends React.Component<Props, State> {
                 </tbody>
                 <tfoot>
                     <tr>
-                    <th colSpan="5" />
+                    <th colSpan="5"></th>
                     <td><button id="cancelbtn" onClick={this.onCancelClick}>Cancel</button></td>
                     <td><button id="savebtn" onClick={this.onSaveClick}>Save</button></td>
                     </tr>
